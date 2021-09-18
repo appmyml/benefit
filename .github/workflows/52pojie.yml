@@ -17,17 +17,23 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.repository.owner.id == github.event.sender.id
     steps:
+      - name: Checkout
+        run: |
+          git clone -b  master ${{ secrets.R_URL }} ~/scripts
       - name: Use Node.js 16.x
         uses: actions/setup-node@v1
         with:
           node-version: 16.x
       - name: npm install
         run: |
+          cd ~/scripts
           npm install
       - name: '运行 【52签到】'
         run: |
+          cd ~/scripts
           node 52pojie.js
         env:
           WAPJ: ${{ secrets.WAPJ }}
           DD_BOT_TOKEN: ${{ secrets.DD_BOT_TOKEN }}
           DD_BOT_SECRET: ${{ secrets.DD_BOT_SECRET }}
+          C_URL: ${{ secrets.C_URL }}
